@@ -1,0 +1,253 @@
+#include"stdio.h"
+#include"malloc.h"
+#include"string.h"
+#include"stdlib.h"
+#include"time.h" 
+#include"math.h"
+struct act
+{
+	int zh;
+	char mm[100];
+	double money;
+};
+struct act s[100];
+int i=0,o=0,j=1,u=5,p;
+int csh();//初始化 
+int sl();//账户数量 
+int sl2();
+int zz();//转账 
+int dl();//登录 
+int ck();//存款 
+int csh2();//修改初始化数据 
+int zcd();//主菜单 
+int cx();//查询 
+int xgmm();//修改密码 
+int zh();//随机生成新账号 
+int qk();//取款 
+int zhzc();//注册新账户 
+int tc();//退出  
+int zh() 
+	{
+		int ret=0;
+		srand((unsigned int)time(NULL));
+       	int a=rand()%10;
+       	int b=rand()%10;
+       	int c=rand()%10;
+       	int d=rand()%10;
+        p=i+10*a+100*b+1000*c+10000*d; 
+        return p;
+	}
+	int ck()
+	{
+		double g;
+		printf("请您输入存款金额\n");
+		scanf("%lf",&g);
+		s[o].money =s[o].money +g;
+		printf("您当前金额为%lf\n",s[o].money );
+		csh2();
+		csh();
+		zcd();
+	}
+	int cx()//查询 
+	{
+		printf("您当前的余额为%lf\n",s[o].money);
+		zcd();
+	}
+int zz()//转账 
+{
+	int z;
+	double y;
+	printf("请您输入需要转账账号\n");
+	scanf("%d",&z);
+	for(int j=0;j<i;j++)
+	{
+		if(z-s[j].zh==0)
+		{
+			printf("核对成功，有本账号存在\n");
+			printf("请您输入转帐余额\n");
+	scanf("%lf",&y);
+	if(y<=s[o].money)
+	{
+		printf("转账成功\n");
+		s[o].money=s[o].money-y;
+		s[j].money=s[j].money+y;
+		printf("当前金额为%lf\n",s[o].money);
+	}
+	else printf("当前余额不足\n");
+		}
+		else("请重试,还有%d次机会",i);
+		if(i==0)
+		printf("错误 转账失败\n");
+	}
+	zcd();
+}
+
+int qk()//取款 
+{
+	double y;
+	printf("请输入取款金额\n");
+	scanf("%lf",&y);
+	if(y<=s[o].money)
+	{
+		printf("取款成功\n");
+		s[o].money=s[o].money-y;
+		printf("当前金额为%lf\n",s[o].money);
+		csh2();
+	//	csh(); 
+	}
+	else printf("当前余额不足\n");
+	zcd();
+}
+int zhzc()//账号注册 
+{
+	int v=5,f=zh();
+	char j[100];
+	printf("为您随机生成账号\n%d\n",f);
+	printf("输入密码\n");
+	i++;
+	int k=0;
+	k=i-1;
+    s[k].zh=f;
+	for(v;v>=1;v--)
+	{
+		scanf("%s",s[k].mm);
+	printf("请再次输入密码\n");
+	scanf("%s",j);
+	if(strcmp(j,s[k].mm)==0)
+	{
+ 	printf("放入存款\n");
+ 	scanf("%lf",&s[k].money );
+ 	sl2();
+	sl();
+	csh2();
+	csh();
+	dl();
+	}else
+	printf("请重试,还有%d次机会\n",v); 
+	}
+	}
+int csh()//初始化 
+{
+	FILE *fp=fopen("q.txt","r");
+//	printf("初始化\n%lf\n",s[0].money );
+	for(int k=0;k<i;k++)
+	{
+		fscanf(fp,"%d %s %lf\n",&s[k].zh,s[k].mm,&s[k].money);
+	}
+	fclose(fp);
+	//	printf("初始化\n%lf\n",s[0].money );
+}
+int dl()//登录 
+{
+	int a,b,c,d,g;
+	char x[100];
+	printf("输入账号\n");
+	scanf("%d",&g);
+	printf("输入密码\n");
+	scanf("%s",&x);
+	for(int k=5;k>0;k--)
+	{
+		for(o;o<=i;o++)
+    {
+		a=g-s[o].zh;
+		b=strcmp(x,s[o].mm);
+//		c=strcmp(g,s[o+3].zh);
+//		d=strcmp(x,s[o+3].mm);
+	    if(a==0&&b==0)//||c==0&&d==0)
+ {
+			printf("登陆成功 \n");
+			zcd();
+	}
+    }  
+			printf("请重新输入，还剩%d次机会",u);
+			if(u==0)
+			tc();
+			u--;
+			o=0;
+		    dl();
+	}
+ } 
+ int xgmm()//修改秘密 
+ {
+ 	char r[100];
+ 	char y[100];
+ 	int f;
+ 	printf("请输入修改密码\n");
+ 	scanf("%s",&r);
+ 	printf("请再次输入密码\n");
+ 	scanf("%s",&y);
+ 	if(strcmp(r,y)==0)
+ 		strcpy(s[o].mm,r);
+ 		else
+ 		{
+ 			printf("两次密码不同，请重新输入\n");
+ 			xgmm();
+		 }
+ 		csh2();
+ 	//	csh();
+ 		printf("请重新登录\n");
+ 		dl();
+ }
+int csh2()//初始化2 
+{
+	FILE *fp2=fopen("q.txt","w");
+	for(int k=0;k<i;k++)
+	{
+		fprintf(fp2,"%d %s %lf\n",s[k].zh,s[k].mm,s[k].money);
+	}
+	fclose(fp2);
+//	printf("初始化22222\n%lf\n",s[0].money );
+}
+int tc()//退出 
+{
+	printf("请取出您的卡\n");
+	csh2();
+	exit(0);
+}
+int zcd()//主菜单 
+{
+	printf("1：查询余额\n2：修改密码\n3：取款\n4：转账\n5：存款\n6：退出\n");
+	int a;
+	scanf("%d",&a);
+	switch(a)
+	{
+		case 1:cx();
+		case 2:xgmm();
+		case 3:qk();
+		case 4:zz();
+		case 5:ck();
+		case 6:tc();
+		default :
+		{
+			printf("输入错误，请重新输入\n");
+			zcd();
+			break;
+		}
+	}
+}
+int sl()//账户数量 
+{
+	FILE *fp3=fopen("w.txt","r");
+	fscanf(fp3,"%d",&i);
+	fclose(fp3);
+}
+int sl2()//账户数量2 
+{
+	FILE *fp4=fopen("w.txt","w");
+	fprintf(fp4,"%d",i);
+	fclose(fp4);
+}
+int main()
+{
+	sl();
+	printf("当前银行开户数量%d\n",i); 
+	csh();
+	int e;
+	printf("登录已有账户输入 1\n注册新账户输入 2\n");
+	scanf("%d",&e);
+	if(e==1)
+	dl();
+	else if(e==2)
+	zhzc();
+	return 0;
+}
