@@ -4,7 +4,7 @@
 #include"stdlib.h"
 #include"time.h" 
 #include"math.h"
-struct act
+struct actgfhsfkjlhskafhkslah jkhkh skjfhjk ashjk hfks hjkf
 {
 	int zh;
 	char mm[100];
